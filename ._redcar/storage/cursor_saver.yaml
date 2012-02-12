@@ -1,0 +1,18 @@
+--- 
+cursor_positions: 
+  - :path: config/application.rb
+    :cursor_offset: 0
+    :timestamp: 2012-02-10 20:59:48.329000 -05:00
+  - :path: config/environment.rb
+    :cursor_offset: 149
+    :timestamp: 2012-02-10 20:59:48.332000 -05:00
+  - :path: config/database.yml
+    :cursor_offset: 0
+    :timestamp: 2012-02-10 20:59:50.271000 -05:00
+  - :path: config/routes.rb
+    :cursor_offset: 0
+    :timestamp: 2012-02-10 20:59:48.325000 -05:00
+  - :path: public/index.html
+    :cursor_offset: 4641
+    :timestamp: 2012-02-11 00:21:07.994000 -05:00
+files_to_retain: 0

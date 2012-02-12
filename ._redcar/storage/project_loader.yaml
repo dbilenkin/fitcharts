@@ -1,0 +1,7 @@
+--- 
+open_files: 
+  - config/application.rb
+  - config/environment.rb
+  - config/database.yml
+  - config/routes.rb
+  - public/index.html

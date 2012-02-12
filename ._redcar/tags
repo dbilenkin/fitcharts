@@ -1,0 +1,8 @@
+1329007917
+Application	C:/RailsProjects/myapp/config/application.rb	  class Application 
+ApplicationController	C:/RailsProjects/myapp/app/controllers/application_controller.rb	class ApplicationController 
+ApplicationHelper	C:/RailsProjects/myapp/app/helpers/application_helper.rb	module ApplicationHelper
+BrowsingTest	C:/RailsProjects/myapp/test/performance/browsing_test.rb	class BrowsingTest 
+Myapp	C:/RailsProjects/myapp/config/application.rb	module Myapp
+TestCase	C:/RailsProjects/myapp/test/test_helper.rb	class ActiveSupport::TestCase
+test_homepage	C:/RailsProjects/myapp/test/performance/browsing_test.rb	  def test_homepage
