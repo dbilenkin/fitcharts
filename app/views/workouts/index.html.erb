@@ -1,11 +1,12 @@
 <h1>Listing workouts</h1>
 
-<table>
+<table width="100%">
   <tr>
     <th>Date</th>
     <th>Duration</th>
     <th>Distance</th>
-    <th>Comments</th>
+    <th>Pace</th>
+    <th>VDOT</th>
     <th></th>
     <th></th>
     <th></th>
@@ -14,9 +15,10 @@
 <% @workouts.each do |workout| %>
   <tr>
     <td><%= workout.date %></td>
-    <td><%= workout.duration %></td>
+    <td><%= workout.duration_formatted %></td>
     <td><%= workout.distance %></td>
-    <td><%= workout.comments %></td>
+    <td><%= workout.pace_formatted %></td>
+    <td><%= workout.vdot.round(2) %></td>
     <td><%= link_to 'Show', workout %></td>
     <td><%= link_to 'Edit', edit_workout_path(workout) %></td>
     <td><%= link_to 'Destroy', workout, confirm: 'Are you sure?', method: :delete %></td>

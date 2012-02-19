@@ -1,5 +1,10 @@
 Myapp::Application.routes.draw do
+  get "workouts/by_date_range"
   resources :workouts
+  resources :graphs
+  get "upload_training_log" => "upload_training_log#index"
+  post "upload_training_log" => "upload_training_log#upload_file"
+  
 
   get "home/index"
 

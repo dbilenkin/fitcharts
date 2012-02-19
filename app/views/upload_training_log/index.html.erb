@@ -1,0 +1,5 @@
+<h1>File Upload</h1>
+<%= form_for :upload_file, :html => {:multipart => true} do |f| %>
+  <%= f.file_field :uploaded_file %>
+  <%= f.submit "Upload" %>
+<% end %>

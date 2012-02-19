@@ -1,0 +1,2 @@
+module UploadTrainingLogHelper
+end

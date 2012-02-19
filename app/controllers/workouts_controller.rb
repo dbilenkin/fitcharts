@@ -9,6 +9,15 @@ class WorkoutsController < ApplicationController
       format.json { render json: @workouts }
     end
   end
+  
+  def by_date_range()
+    @workouts = Workout.find(:all, :conditions => {:date => Date.today.prev_month..Date.today})
+    
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @workouts }
+    end
+  end
 
   # GET /workouts/1
   # GET /workouts/1.json
