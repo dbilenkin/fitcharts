@@ -1,68 +1,63 @@
 <h1>Graphs</h1>
-<div id="vdot_graph"</div>
+<select id="graphType" >
+	<option value="line">Line</option>
+	<option value="spline">Spline</option>
+	<option value="column">Column</option>
+	<option value="area">Area</option>
+	<option value="areaspline">Area Spline</option>
+	
+</select>
 <div id="container"></div>
+
+
 
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 		<script type="text/javascript">
 var chart;
+
+function changeType(series, newType) {
+        
+    for(var i=0;i<series.length;i++)
+    {
+        serie = series[0];
+        serie.chart.addSeries({
+            type: newType,
+            name: serie.name,
+            color: serie.color,
+            data: serie.options.data
+        }, false);
+        
+        serie.remove();
+    }
+    
+}
 $(document).ready(function() {
 
 	// define the options
 	var options = {
 
 		chart: {
-			renderTo: 'container'
+			renderTo: 'container',
+			defaultSeriesType: 'line',
+			zoomType: 'x'
 		},
 
 		title: {
-			text: 'Daily Distance'
+			text: 'Daily Workouts'
 		},
 
 		subtitle: {
-			text: 'something'
+			text: 'Last 30 Days; Zoom In'
 		},
 
 		xAxis: {
-			type: 'datetime',
-			tickInterval: 7 * 24 * 3600 * 1000, // one week
-			tickWidth: 0,
-			gridLineWidth: 1,
-			labels: {
-				align: 'left',
-				x: 3,
-				y: -3
-			}
+			type: 'datetime'
 		},
 
 		yAxis: [{ // left y axis
 			title: {
-				text: null
-			},
-			labels: {
-				align: 'left',
-				x: 3,
-				y: 16,
-				formatter: function() {
-					return Highcharts.numberFormat(this.value, 0);
-				}
-			},
-			showFirstLabel: false
-		}, { // right y axis
-			linkedTo: 0,
-			gridLineWidth: 0,
-			opposite: true,
-			title: {
-				text: null
-			},
-			labels: {
-				align: 'right',
-				x: -3,
-				y: 16,
-				formatter: function() {
-					return Highcharts.numberFormat(this.value, 0);
-				}
-			},
-			showFirstLabel: false
+				text: "Miles"
+			}
 		}],
 
 		legend: {
@@ -97,7 +92,7 @@ $(document).ready(function() {
 
 				options.series[0].data.push(
 					[Date.parse(data[i].date), parseFloat(data[i].distance)]
-				)
+				);
 			}
 
 
@@ -107,5 +102,10 @@ $(document).ready(function() {
         cache: false
 		
 	});
+	
+	$("#graphType").change(
+		function() {
+			changeType(chart.series, this.value);
+		});
 });
 </script>
