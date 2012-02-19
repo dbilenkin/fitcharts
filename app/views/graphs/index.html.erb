@@ -7,6 +7,13 @@
 	<option value="areaspline">Area Spline</option>
 	
 </select>
+
+<select id="metric" >
+	<option value="distance">Distance</option>
+	<option value="duration">Duration</option>
+	<option value="pace">Pace</option>
+	<option value="vdot">VDOT</option>	
+</select>
 <div id="container"></div>
 
 
@@ -14,6 +21,7 @@
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 		<script type="text/javascript">
 var chart;
+var jsonData;
 
 function changeType(series, newType) {
         
@@ -85,6 +93,7 @@ $(document).ready(function() {
         dataType: 'json',
         success: function(data) {
 			
+			jsonData = data;
 			//options.series.push(data);
 			options.series[0].data = [];
 
@@ -106,6 +115,21 @@ $(document).ready(function() {
 	$("#graphType").change(
 		function() {
 			changeType(chart.series, this.value);
+		});
+		
+	$("#metric").change(
+		function() {
+			
+			chart.options.series[0].data = [];
+			for (var i=0; i< jsonData.length; i++) {
+
+				chart.options.series[0].data.push(
+					[Date.parse(jsonData[i].date), parseFloat(jsonData[i][this.value])]
+				);
+			}
+			
+			chart.redraw();
+			//changeType(chart.series, $("#metric").val());
 		});
 });
 </script>

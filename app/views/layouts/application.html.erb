@@ -7,13 +7,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-	
-<%= link_to "Workouts", workouts_path %>
-<%= link_to "Upload Training Log", upload_training_log_path %>
+<%= link_to "Upload Training Log", upload_training_log_path %>	|
+<%= link_to "Workouts", workouts_path %> |
 <%= link_to "Graphs", graphs_path %>
 
 
 <%= yield %>
+
+<p>This is the footer full of footery info</p>
+
 
 </body>
 </html>

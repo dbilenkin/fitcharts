@@ -10,6 +10,9 @@ class UploadTrainingLogController < ApplicationController
   
   def upload_file
     
+    #delete everything first
+    Workout.delete_all
+    
     xml_file = params[:upload_file][:uploaded_file].read
     doc = Hpricot.XML(xml_file)
     #puts "doc: #{doc}"

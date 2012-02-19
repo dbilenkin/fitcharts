@@ -40,7 +40,7 @@ class Workout < ActiveRecord::Base
   end
   
   def as_json(options={})
-    super(:only => [:date, :distance], :methods =>[:pace])
+    super(:only => [:date, :distance, :duration], :methods =>[:pace, :vdot])
     #super(:only => [:date, :distance], :methods =>[:pace_formatted, :duration_formatted, :vdot])
   end
   
