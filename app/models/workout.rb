@@ -1,4 +1,10 @@
 class Workout < ActiveRecord::Base
+  
+  belongs_to :user
+  belongs_to :workout_type
+  
+  attr_accessor :avg_vdot, :month
+  
   def pace
     self.duration / self.distance 
   end
@@ -40,7 +46,7 @@ class Workout < ActiveRecord::Base
   end
   
   def as_json(options={})
-    super(:only => [:date, :distance, :duration], :methods =>[:pace, :vdot])
+    super(:only => [:date, :distance, :duration, :avg_hr, :weight, :comments], :methods =>[:pace, :vdot, :avg_vdot, :month])
     #super(:only => [:date, :distance], :methods =>[:pace_formatted, :duration_formatted, :vdot])
   end
   

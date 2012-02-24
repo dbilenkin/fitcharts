@@ -1,3 +1,5 @@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js'></script>
 <h1>Graphs</h1>
 <select id="graphType" >
 	<option value="line">Line</option>
@@ -12,16 +14,25 @@
 	<option value="distance">Distance</option>
 	<option value="duration">Duration</option>
 	<option value="pace">Pace</option>
-	<option value="vdot">VDOT</option>	
+	<option value="avg_vdot">VDOT</option>	
+	<option value="avg_hr">Average HR</option>	
+	<option value="weight">Weight</option>
+	<option value="vdotoverhr">VDOT/HR</option>
+		
 </select>
+
+<span id="pastMonthsText">12 months ago to 0 months ago</span>
+<div class="slider" id="pastMonthsSlider"></div>
 <div id="container"></div>
 
 
 
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-		<script type="text/javascript">
+		
+<script type="text/javascript">
 var chart;
 var jsonData;
+var pastMonths = 1;
+var options;
 
 function changeType(series, newType) {
         
@@ -36,13 +47,93 @@ function changeType(series, newType) {
         }, false);
         
         serie.remove();
+        
+        options.chart.defaultSeriesType = newType;
     }
     
 }
+
+function displayMetric(metric) {
+	var data = [];
+	for (var i=0; i< jsonData.length; i++) {
+		
+		var value;
+		if (metric == "vdotoverhr") {
+			if (parseInt(jsonData[i]["avg_hr"]) > 30) {
+				value = parseFloat(jsonData[i]["avg_vdot"])/parseInt(jsonData[i]["avg_hr"]);
+				value = parseFloat((value * 100).toFixed(2));
+			} else {
+				value = null;
+			}
+		} else if (metric == "duration" || metric == "pace") {
+			value = parseFloat(jsonData[i][metric]/60);
+		} else {
+			value = parseFloat(parseFloat(jsonData[i][metric]).toFixed(2));
+		}
+
+		if (!isNaN(value)) {
+			data.push(
+				[Date.parse(jsonData[i].date), value]
+			);
+			
+		}
+		
+	}
+	
+	if (!chart) chart = new Highcharts.Chart(options);
+	
+	chart.series[0].remove();
+	
+	chart.addSeries({
+		name: this.value,
+		data: data,
+		column: { pointPadding: 0.1 },
+		type: $("#graphType").val()
+	})
+}
+
+function getWorkouts(startMonth, endMonth) {
+	$.ajax({
+        //url: 'workouts/by_date_range/' + pastMonths + '.json',
+        url: 'workouts/group_by/' + startMonth + '/' + endMonth + '.json',
+        
+        dataType: 'json',
+        success: function(data) {
+			
+			var series = [{
+				id: 'distance',
+				name: 'Distance'
+			}]
+			jsonData = data;
+			//options.series.push(data);
+			if (!chart) {
+				options.series = series;
+				options.series[0].data = [];
+	
+				for (var i=0; i< data.length; i++) {
+	
+					options.series[0].data.push(
+						[Date.parse(data[i].date), parseFloat(parseFloat(data[i].distance).toFixed(2))]
+						//[data[i].month, parseFloat(parseFloat(data[i].distance).toFixed(2))]
+					);
+				}
+	
+	
+				chart = new Highcharts.Chart(options);
+			} else {
+				displayMetric($("#metric").val());
+			}
+			//chart.get('distance').setData(data, true);
+        },
+        cache: false
+		
+	});
+}
+
 $(document).ready(function() {
 
 	// define the options
-	var options = {
+	options = {
 
 		chart: {
 			renderTo: 'container',
@@ -77,40 +168,40 @@ $(document).ready(function() {
 		},
 
 		tooltip: {
-			shared: true,
-			crosshairs: true
+			/*shared: true,
+			crosshairs: true,
+			formatter: function() {
+				var d = new Date(this.x );
+				return d.toDateString() + '<br/>' + this.points[0].series.name + ': ' + 
+				this.points[0].y + '<br/>Comments: ' + jsonData[5].comments;
+			}*/
 		},
 
 		series: [{
 			id: 'distance',
-			name: 'Distance'
+			name: 'Distance',
+			pointPadding: 0.1,
 		}]
 	};
 
 
-	$.ajax({
-        url: 'workouts/by_date_range.json',
-        dataType: 'json',
-        success: function(data) {
-			
-			jsonData = data;
-			//options.series.push(data);
-			options.series[0].data = [];
+	getWorkouts(12,0);
+	
+	$("#pastMonthsSlider").slider({
+		values: [24,36],
+		min: 0,
+		max: 36,
+		range: true,
 
-			for (var i=0; i< data.length; i++) {
-
-				options.series[0].data.push(
-					[Date.parse(data[i].date), parseFloat(data[i].distance)]
-				);
-			}
-
-
-			chart = new Highcharts.Chart(options);
-			//chart.get('distance').setData(data, true);
-        },
-        cache: false
-		
+		stop: function(event, ui) {
+			startMonth = 36 - ui.values[0];
+			endMonth = 36 - ui.values[1]
+			$( "#pastMonthsText" ).html(startMonth + 
+			" months ago to " + endMonth +" months ago");
+			getWorkouts(startMonth,endMonth)
+		}		
 	});
+	
 	
 	$("#graphType").change(
 		function() {
@@ -118,18 +209,8 @@ $(document).ready(function() {
 		});
 		
 	$("#metric").change(
-		function() {
-			
-			chart.options.series[0].data = [];
-			for (var i=0; i< jsonData.length; i++) {
-
-				chart.options.series[0].data.push(
-					[Date.parse(jsonData[i].date), parseFloat(jsonData[i][this.value])]
-				);
-			}
-			
-			chart.redraw();
-			//changeType(chart.series, $("#metric").val());
+		function() {		
+			displayMetric(this.value);
 		});
 });
 </script>

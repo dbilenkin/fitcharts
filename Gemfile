@@ -7,6 +7,7 @@ gem 'rails', '3.2.1'
 
 gem 'pg'
 gem 'hpricot'
+gem 'devise'
 
 # apparently 0.9 breaks stuff? whatever.
 # gem "rake", "0.8.7"

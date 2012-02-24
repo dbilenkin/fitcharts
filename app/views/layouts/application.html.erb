@@ -9,7 +9,20 @@
 <body>
 <%= link_to "Upload Training Log", upload_training_log_path %>	|
 <%= link_to "Workouts", workouts_path %> |
-<%= link_to "Graphs", graphs_path %>
+<%= link_to "Graphs", graphs_path %> |
+
+
+<% if user_signed_in? %>
+    Signed in as <%= current_user.email %>. 
+    <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+<% else %>
+    <%= link_to 'Register', new_user_registration_path %> or <%= link_to 'Sign in', new_user_session_path %>
+<% end %>
+
+
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+
 
 
 <%= yield %>
