@@ -10,7 +10,8 @@ Myapp::Application.routes.draw do
   get "upload_training_log" => "upload_training_log#index"
   post "upload_training_log" => "upload_training_log#upload_file"
   
-
+  get "about" => "about#index"
+  get "faq" => "faq#index"
   get "home/index"
 
   # The priority is based upon order of creation:
