@@ -57,5 +57,8 @@ module Myapp
     config.assets.version = '1.0'
     
     config.assets.initialize_on_precompile = false
+    
+    config.assets.precompile += ["reset.css", "text.css", "grid.css", "layout.css", "nav.css", "highcharts.js", "custom_graph.js", "jquery-fluid16.js"]
+
   end
 end
