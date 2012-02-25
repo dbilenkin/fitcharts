@@ -110,7 +110,7 @@ $(document).ready(function() {
 			renderTo: 'container',
 			defaultSeriesType: 'line',
 			zoomType: 'x',
-			height: $(window).height() - 350
+			height: Math.max($(window).height() - 400, 300)
 		},
 
 		title: {
@@ -186,4 +186,10 @@ $(document).ready(function() {
 			displayMetric(this.id);
 			metric = this.id;
 		});
+		
+	$(".multiselectable").bind("mousedown", function(e) {
+		  e.metaKey = true;
+		}).selectable();
+		
+	$(".selectable").selectable();
 });

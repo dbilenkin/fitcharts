@@ -5,14 +5,14 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Fit Charts</title>
 	
-	<!--
-	<link rel="stylesheet" type="text/css" href="assets/reset.css" media="screen" />
-	<link rel="stylesheet" type="text/css" href="assets/text.css" media="screen" />
-	<link rel="stylesheet" type="text/css" href="assets/grid.css" media="screen" />
-	<link rel="stylesheet" type="text/css" href="assets/layout.css" media="screen" />
-	<link rel="stylesheet" type="text/css" href="assets/nav.css" media="screen" />
-	-->
-	<%= stylesheet_link_tag "reset", "text", "grid", "layout", "nav"  %>
+
+	<link rel="stylesheet" type="text/css" href="/assets/reset.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/assets/text.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/assets/grid.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/assets/layout.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/assets/nav.css" media="screen" />
+
+	<!--<%= stylesheet_link_tag "reset", "text", "grid", "layout", "nav"  %>-->
 	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="assets/ie6.css" media="screen" /><![endif]-->
 	<!--[if IE 7]><link rel="stylesheet" type="text/css" href="assets/ie.css" media="screen" /><![endif]-->
   
@@ -42,7 +42,7 @@
 		<div class="grid_16">
 			<ul class="nav main">
 				<li>
-					<%= link_to "Home", Rails.public_path %>
+					<%= link_to "Home", home_index_path %>
 				</li>
 				<li>
 					<%= link_to "Upload Training Log", upload_training_log_path %>
@@ -95,17 +95,16 @@
 		<div class="clear"></div>
 	</div>
 	
-	<!--	
-	<script type="text/javascript" src="assets/jquery-1.3.2.min.js"></script>
-	<script type="text/javascript" src="assets/jquery-ui.js"></script>
 	
-	<script type="text/javascript" src="assets/highcharts.js"></script>
-	
-	<script type="text/javascript" src="assets/jquery-fluid16.js"></script>
-	-->
+
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js'></script>
-	<%= javascript_include_tag "highcharts", "custom_graph", "jquery-fluid16"  %>
+	<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js'></script>
+	<script type="text/javascript" src="assets/highcharts.js"></script>
+	<script type="text/javascript" src="assets/custom_graph.js"></script>
+	<script type="text/javascript" src="assets/jquery-fluid16.js"></script>
+
+	
+	<!--<%= javascript_include_tag "highcharts", "custom_graph", "jquery-fluid16"  %> -->
 
 
 </body>

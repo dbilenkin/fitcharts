@@ -82,7 +82,9 @@ $(document).ready(function() {
 		}]
 	});
 	
-	$(".selectable").bind("mousedown", function(e) {
+	$(".multiselectable").bind("mousedown", function(e) {
 		  e.metaKey = true;
 		}).selectable();
+		
+	$(".selectable").selectable();
 });
