@@ -37,7 +37,7 @@ function displayMetric(metric) {
 				value = null;
 			}
 		} else if (metric == "duration" || metric == "pace") {
-			value = parseFloat(jsonData[i][metric]/60);
+			value = parseFloat(parseFloat(jsonData[i][metric]/60).toFixed(2));
 		} else {
 			value = parseFloat(parseFloat(jsonData[i][metric]).toFixed(2));
 		}
@@ -114,11 +114,11 @@ $(document).ready(function() {
 		},
 
 		title: {
-			text: 'Daily Workouts'
+			text: 'Dynamic Title Based on Chart'
 		},
 
 		subtitle: {
-			text: 'Last 30 Days; Zoom In'
+			text: 'Some super sweet subtitle action here'
 		},
 
 		xAxis: {
@@ -182,6 +182,12 @@ $(document).ready(function() {
 		});
 		
 	$(".metric").click(
+		function() {		
+			displayMetric(this.id);
+			metric = this.id;
+		});
+		
+	$(".groupby").click(
 		function() {		
 			displayMetric(this.id);
 			metric = this.id;

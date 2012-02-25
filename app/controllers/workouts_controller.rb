@@ -22,7 +22,9 @@ class WorkoutsController < ApplicationController
   end
   
   def by_date_range
-    date_range = Date.today.months_ago(params[:months].to_i)..Date.today
+    start_month = Date.today.months_ago(params[:startMonth].to_i).beginning_of_month
+    end_month = Date.today.months_ago(params[:endMonth].to_i).end_of_month
+    date_range = start_month..end_month
     @workouts = current_user.workouts.where(:date => date_range).order('date asc')
     
     respond_to do |format|
@@ -36,6 +38,7 @@ class WorkoutsController < ApplicationController
     end_month = Date.today.months_ago(params[:endMonth].to_i).end_of_month
     date_range = start_month..end_month
     workouts = current_user.workouts.where(:date => date_range).order('date asc')
+    
     workout_months = workouts.group_by { |t| t.date.beginning_of_month }
     
     @monthly_workouts = Array.new

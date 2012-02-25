@@ -1,5 +1,9 @@
 <h1>Listing workouts</h1>
 
+<% if @workouts.empty? %>
+<p>Dude, you have no workouts.  You need to upload them <%= link_to "here", upload_training_log_path %>.</p>
+<% end %>
+
 <table width="100%">
   <tr>
     <th>Date</th>
@@ -11,6 +15,8 @@
     <th></th>
     <th></th>
   </tr>
+
+
 
 <% @workouts.each do |workout| %>
   <tr>
