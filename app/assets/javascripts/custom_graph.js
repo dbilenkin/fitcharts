@@ -1,9 +1,11 @@
 var chart;
 var jsonData;
-var pastMonths = 1;
+var startMonth = 12;
+var endMonth = 0;
 var options;
 var graphType = "line";
 var metric = "distance";
+var workoutType = "Run";
 
 function changeType(series, newType) {
         
@@ -66,10 +68,10 @@ function displayMetric(metric) {
 	})
 }
 
-function getWorkouts(startMonth, endMonth) {
+function getWorkouts() {
 	$.ajax({
         //url: 'workouts/by_date_range/' + pastMonths + '.json',
-        url: 'workouts/group_by/' + startMonth + '/' + endMonth + '.json',
+        url: 'workouts/group_by/' + startMonth + '/' + endMonth + '/' + workoutType + '.json',
         
         dataType: 'json',
         success: function(data) {
@@ -174,7 +176,7 @@ $(document).ready(function() {
 			endMonth = 36 - ui.values[1]
 			$( "#pastMonthsText" ).html(startMonth + 
 			" months ago to " + endMonth +" months ago");
-			getWorkouts(startMonth,endMonth)
+			getWorkouts();
 		}		
 	});
 	
@@ -189,6 +191,12 @@ $(document).ready(function() {
 		function() {		
 			displayMetric(this.id);
 			metric = this.id;
+		});
+		
+	$(".workoutType").click(
+		function() {		
+			workoutType = this.id;
+			getWorkouts();
 		});
 		
 	$(".groupby").click(

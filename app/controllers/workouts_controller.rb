@@ -39,6 +39,7 @@ class WorkoutsController < ApplicationController
     date_range = start_month..end_month
     workouts = current_user.workouts.includes(:workout_type).where(:date => date_range).order('date asc')
     
+    workouts.reject!{|x| x.workout_type.name != params[:type]}
     workout_months = workouts.group_by { |t| t.date.beginning_of_month }
     
     @monthly_workouts = Array.new
