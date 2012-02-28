@@ -43,8 +43,11 @@ function displayMetric(metric) {
 		}
 
 		if (!isNaN(value)) {
+			
+			var d = $.datepicker.parseDate('yy-mm-dd', jsonData[i].date).valueOf();
 			data.push(
-				[Date.parse(jsonData[i].date), value]
+				//[$.datepicker.parseDate('yy-mm-dd', data[i].date), value]
+				[d, value]
 			);
 			
 		}
@@ -82,9 +85,10 @@ function getWorkouts(startMonth, endMonth) {
 				options.series[0].data = [];
 	
 				for (var i=0; i< data.length; i++) {
-	
+					var d = $.datepicker.parseDate('yy-mm-dd', data[i].date).valueOf();
+					var d2 = Date.parse(data[i].date);
 					options.series[0].data.push(
-						[Date.parse(data[i].date), parseFloat(parseFloat(data[i].distance).toFixed(2))]
+						[d, parseFloat(parseFloat(data[i].distance).toFixed(2))]
 						//[data[i].month, parseFloat(parseFloat(data[i].distance).toFixed(2))]
 					);
 				}

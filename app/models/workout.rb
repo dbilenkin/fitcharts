@@ -3,27 +3,33 @@ class Workout < ActiveRecord::Base
   belongs_to :user
   belongs_to :workout_type
   
-  attr_accessor :avg_vdot, :month
+  attr_accessor :avg_vdot, :month, :type
   
   def pace
-    self.duration / self.distance 
+    if (!self.distance.nil?)
+      self.duration / self.distance 
+    end
   end
   
   def vdot
-    self.pace * self.duration
-    
-    duration = self.duration/60
-    distance = self.distance * 1609.3
-    speed = distance/duration
-    
-    percent_max = 0.8 + 0.1894393 * 
-    Math.exp(-0.012778 * duration) + 0.2989558 * 
-    Math.exp(-0.1932605 * duration * 1440)
-    
-    vo2 = -4.6 + 0.182258 * speed + 
-    0.000104 * speed**2
-    
-    vdot = vo2 / percent_max
+    if (!self.distance.nil?)
+      self.pace * self.duration
+      
+      duration = self.duration/60
+      distance = self.distance * 1609.3
+      speed = distance/duration
+      
+      percent_max = 0.8 + 0.1894393 * 
+      Math.exp(-0.012778 * duration) + 0.2989558 * 
+      Math.exp(-0.1932605 * duration * 1440)
+      
+      vo2 = -4.6 + 0.182258 * speed + 
+      0.000104 * speed**2
+      
+      vdot = vo2 / percent_max
+    else
+      0
+    end
   end
   
   def time_formatted(seconds)
@@ -38,15 +44,19 @@ class Workout < ActiveRecord::Base
   end
   
   def pace_formatted
-    self.time_formatted(self.pace)
+    if (!self.distance.nil?)
+      self.time_formatted(self.pace)
+    end
   end
   
   def duration_formatted
-    self.time_formatted(self.duration) 
+    if (!self.duration.nil?)
+      self.time_formatted(self.duration) 
+    end
   end
   
   def as_json(options={})
-    super(:only => [:date, :distance, :duration, :avg_hr, :weight, :comments], :methods =>[:pace, :vdot, :avg_vdot, :month])
+    super(:only => [:date, :distance, :duration, :avg_hr, :weight, :comments], :methods =>[:pace, :vdot, :avg_vdot, :month, :type])
     #super(:only => [:date, :distance], :methods =>[:pace_formatted, :duration_formatted, :vdot])
   end
   

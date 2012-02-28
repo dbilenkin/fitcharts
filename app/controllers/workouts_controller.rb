@@ -1,6 +1,6 @@
 class WorkoutsController < ApplicationController
   
-  before_filter :authenticate_user!, :except => [:show, :index]
+  before_filter :authenticate_user!
   # GET /workouts
   # GET /workouts.json
   def index
@@ -37,7 +37,7 @@ class WorkoutsController < ApplicationController
     start_month = Date.today.months_ago(params[:startMonth].to_i).beginning_of_month
     end_month = Date.today.months_ago(params[:endMonth].to_i).end_of_month
     date_range = start_month..end_month
-    workouts = current_user.workouts.where(:date => date_range).order('date asc')
+    workouts = current_user.workouts.includes(:workout_type).where(:date => date_range).order('date asc')
     
     workout_months = workouts.group_by { |t| t.date.beginning_of_month }
     
@@ -48,13 +48,15 @@ class WorkoutsController < ApplicationController
       #workout.month = records[0].date.strftime('%B, %Y')
       workout.date = records[0].date.beginning_of_month
       
+      workout.type = records[0].workout_type.name
+      
       puts "month: #{month}"
       puts "record #{records[0].date.strftime('%B, %Y')}"
       
       #workout.distance = records.inject {|sum, n| sum + n.distance } 
-      workout.distance = records.collect(&:distance).sum
-      workout.duration = records.collect(&:duration).sum
-      workout.avg_vdot = records.collect(&:vdot).sum.to_f/records.size
+      workout.distance = records.reject{|x| x.distance.nil?}.collect(&:distance).sum
+      workout.duration = records.reject{|x| x.duration.nil?}.collect(&:duration).sum
+      workout.avg_vdot = records.reject{|x| x.vdot.nil?}.collect(&:vdot).sum.to_f/records.size
       
       total_hr = 0.0
       num_hr_records = 0
@@ -74,6 +76,7 @@ class WorkoutsController < ApplicationController
       #workout.avg_hr = records.inject {|sum, n| sum + n.avg_hr }.to_f / records.size 
       #workout.vdot = records.inject {|sum, n| sum + n.vdot }.to_f / records.size
       
+
       @monthly_workouts.push(workout) 
       
     end

@@ -19,7 +19,7 @@ class UploadTrainingLogController < ApplicationController
     xml_file = params[:upload_file][:uploaded_file].read
     doc = Hpricot.XML(xml_file)
     #puts "doc: #{doc}"
-    (doc.search("//Event[@typeName='Run']")).each_with_index do |event, i|
+    (doc.search("//Event")).each_with_index do |event, i|
       puts "Event: #{i}"
       
       workout = current_user.workouts.create
