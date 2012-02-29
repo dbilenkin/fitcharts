@@ -7,6 +7,7 @@
 <table width="100%">
   <tr>
     <th>Date</th>
+    <th>Type</th>
     <th>Duration</th>
     <th>Distance</th>
     <th>Pace</th>
@@ -21,8 +22,9 @@
 <% @workouts.each do |workout| %>
   <tr>
     <td><%= workout.date %></td>
+    <td><%= workout.workout_type.name %></td>
     <td><%= workout.duration_formatted %></td>
-    <td><%= workout.distance %></td>
+    <td><%= workout.distance.nil? ? 0 : workout.distance.round(2) %></td>
     <td><%= workout.pace_formatted %></td>
     <td><%= workout.vdot.round(2) %></td>
     <td><%= link_to 'Show', workout %></td>

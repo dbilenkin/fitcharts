@@ -21,10 +21,10 @@
 <body>
 	<div class="container_16">
 		<div class="clear"></div>
-		<div id="header"class="grid_16">
-			<div>
+		<div class="grid_16">
+			<div id="header">
 				<h1 id="branding">
-					<%= link_to "Fit Charts", home_index_path %>
+					<%= link_to "Fit", home_index_path, :id => 'fit'  %><%= link_to "Charts", home_index_path, :id => 'charts'  %>
 				</h1>
 				<div class="secondary">
 					<div id="login_info">
@@ -52,14 +52,6 @@
 				</li>
 				<li>
 					<%= link_to "Graphs", graphs_path %>
-					<ul>
-						<li>
-							<%= link_to "Graphs", graphs_path %>
-						</li>
-						<li>
-							<a href="graphs/group.html">Group</a>
-						</li>
-					</ul>
 				</li>
 				<li class="secondary">
 					<%= link_to "About", about_path %>

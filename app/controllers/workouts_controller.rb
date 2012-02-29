@@ -40,18 +40,28 @@ class WorkoutsController < ApplicationController
     workouts = current_user.workouts.includes(:workout_type).where(:date => date_range).order('date asc')
     
     workouts.reject!{|x| x.workout_type.name != params[:type]}
-    workout_months = workouts.group_by { |t| t.date.beginning_of_month }
     
-    @monthly_workouts = Array.new
+    if (params[:group_by] == "year")
+      workout_groups = workouts.group_by { |t| t.date.beginning_of_year }
+    elsif (params[:group_by] == "month")
+      workout_groups = workouts.group_by { |t| t.date.beginning_of_month }
+    elsif (params[:group_by] == "week")
+      workout_groups = workouts.group_by { |t| t.date.beginning_of_week }
+    elsif (params[:group_by] == "day")
+      workout_groups = workouts.group_by { |t| t.date.beginning_of_day }
+    end
     
-    workout_months.each do |month, records|
+    
+    @grouped_workouts = Array.new
+    
+    workout_groups.each do |group, records|
       workout = Workout.new
       #workout.month = records[0].date.strftime('%B, %Y')
-      workout.date = records[0].date.beginning_of_month
+      workout.date = records[0].date
       
       workout.type = records[0].workout_type.name
       
-      puts "month: #{month}"
+      puts "group #{group}"
       puts "record #{records[0].date.strftime('%B, %Y')}"
       
       #workout.distance = records.inject {|sum, n| sum + n.distance } 
@@ -78,13 +88,13 @@ class WorkoutsController < ApplicationController
       #workout.vdot = records.inject {|sum, n| sum + n.vdot }.to_f / records.size
       
 
-      @monthly_workouts.push(workout) 
+      @grouped_workouts.push(workout) 
       
     end
     
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @monthly_workouts }
+      format.json { render json: @grouped_workouts }
     end
   end
 

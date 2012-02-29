@@ -3,9 +3,10 @@ var jsonData;
 var startMonth = 12;
 var endMonth = 0;
 var options;
-var graphType = "line";
+var graphType = "spline";
 var metric = "distance";
 var workoutType = "Run";
+var groupBy = "month";
 
 function changeType(series, newType) {
         
@@ -63,7 +64,7 @@ function displayMetric(metric) {
 	chart.addSeries({
 		name: this.value,
 		data: data,
-		column: { pointPadding: 0.1 },
+		pointPadding: 0,
 		type: graphType
 	})
 }
@@ -71,7 +72,9 @@ function displayMetric(metric) {
 function getWorkouts() {
 	$.ajax({
         //url: 'workouts/by_date_range/' + pastMonths + '.json',
-        url: 'workouts/group_by/' + startMonth + '/' + endMonth + '/' + workoutType + '.json',
+        url: 'workouts/group_by/' + 
+        groupBy + '/' + startMonth + '/' + 
+        endMonth + '/' + workoutType + '.json',
         
         dataType: 'json',
         success: function(data) {
@@ -96,7 +99,7 @@ function getWorkouts() {
 				}
 	
 	
-				chart = new Highcharts.Chart(options);
+				if (!chart) chart = new Highcharts.Chart(options);
 			} else {
 				displayMetric(metric);
 			}
@@ -114,9 +117,11 @@ $(document).ready(function() {
 
 		chart: {
 			renderTo: 'container',
-			defaultSeriesType: 'line',
+			defaultSeriesType: 'spline',
 			zoomType: 'x',
-			height: Math.max($(window).height() - 400, 300)
+			height: Math.max($(window).height() - 400, 300),
+			className: 'examplechart-container',
+			marginRight: 50
 		},
 
 		title: {
@@ -128,7 +133,11 @@ $(document).ready(function() {
 		},
 
 		xAxis: {
-			type: 'datetime'
+			type: 'datetime',
+			dateTimeLabelFormats: {
+            	month: '%b \'%y'   
+        	}
+			
 		},
 
 		yAxis: [{ // left y axis
@@ -158,8 +167,15 @@ $(document).ready(function() {
 		series: [{
 			id: 'distance',
 			name: 'Distance',
-			pointPadding: 0.1
-		}]
+			pointPadding: 0,
+			connectNulls: true
+		}],
+		
+		plotOptions: {
+			series: [{
+				connectNulls: true
+			}]
+		}
 	};
 
 
@@ -199,10 +215,10 @@ $(document).ready(function() {
 			getWorkouts();
 		});
 		
-	$(".groupby").click(
+	$(".groupBy").click(
 		function() {		
-			displayMetric(this.id);
-			metric = this.id;
+			groupBy = this.id;
+			getWorkouts();
 		});
 		
 	$(".multiselectable").bind("mousedown", function(e) {

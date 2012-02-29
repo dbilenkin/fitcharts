@@ -1,13 +1,25 @@
+/* CUSTOM FONTS */
+@font-face {
+	font-family: bicycle;
+	src: url('Bicycle.ttf');
+}
+
+@font-face {
+	font-family: pirulen;
+	src: url('pirulen.ttf');
+}
+
 /*
 -----------------------------------------------
 Grey Box Method - Layout CSS
 ----------------------------------------------- */
 
 body {
-	background: #62B1D0;
 	border-top: 5px solid #000;
-	font-size: 12px;
+	color: #222;
+	font-size: 11px;
 	padding: 0 0 40px;
+    background: url('cell.jpg');
 }
 
 
@@ -27,7 +39,8 @@ a:hover {
 ----------------------------------------------- */
 .container_12,
 .container_16 {
-	background:#FFBC73;
+	background:#ddd;
+	-webkit-box-shadow: 0 2px 5px 5px rgba(30,30,30,0.7);
 }
 
 
@@ -45,7 +58,6 @@ h1 a {
 
 div#login_info {
 	padding: 30px 10px 0px 0px;
-	background: #0776A0;
 	float: right;
 	color: white;
 	font-size: 12px;
@@ -53,20 +65,45 @@ div#login_info {
 
 #header {
 	background:#0776A0;
+	background-image: linear-gradient(top, #62B1D0 0%, #0777A0 85%, #024D68 100%);
+	background-image: -o-linear-gradient(top, #62B1D0 0%, #0777A0 85%, #024D68 100%);
+	background-image: -moz-linear-gradient(top, #62B1D0 0%, #0777A0 85%, #024D68 100%);
+	background-image: -webkit-linear-gradient(top, #62B1D0 0%, #0777A0 85%, #024D68 100%);
+	background-image: -ms-linear-gradient(top, #62B1D0 0%, #0777A0 85%, #024D68 100%);
+	
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, #62B1D0),
+		color-stop(0.85, #0777A0),
+		color-stop(1, #024D68)
+	);
+	height: 90px;
+	
 }
 
 /* branding
 ----------------------------------------------- */
-#branding {
+h1#branding {
+	
 	font-weight:normal;
-	font-size:3em;
+	font-size:48px;
 	text-align:left;
-	background:#0776A0;
-	padding:.5em .5em;
+	padding:.3em .3em;
 	margin-bottom:0;
 	float: left;
 }
 
+h1 a#fit {
+	font-family: pirulen;
+	color: #333;
+}
+
+h1 a#charts {
+	font-family: pirulen;
+	color: #666
+}
 
 /* page heading
 ----------------------------------------------- */
@@ -75,6 +112,20 @@ h2#page-heading {
 	padding:.5em;
 	margin:0 0 10px 0;
 	border-bottom:1px solid #024C68;
+}
+
+#pastMonthsText {
+	font-size: 14px;
+}
+#container {
+	width: 100%;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+.examplechart-container {
+	border: 1px solid black;
+	-webkit-box-shadow: 0 2px 5px 2px rgba(0,0,0,0.7);
 }
 
 
@@ -161,7 +212,6 @@ ul.menu {
 	border-top:1px solid #226078;
 	margin:0;
 }
-
 ul.menu li {
 	margin:0;
 }
@@ -175,6 +225,10 @@ ul.menu li a:hover {
 }
 ul.menu li a:active {
 	background:#024C68;
+}
+
+ul.menu li.disabled {
+	background:#555;
 }
 
 ul.menu li.ui-selected {
@@ -290,7 +344,7 @@ tbody th,
 tbody td {
 	border-top:1px solid #226078;
 	border-bottom:1px solid #226078;
-	background:#eee;
+	background:#fff;
 }
 tbody tr.odd th,
 tbody tr.odd td {
@@ -436,12 +490,26 @@ input.search.button {
 /* site information
 ----------------------------------------------- */
 #site_info .box {
-	color:#000;
 	background:#0776A0;
+	color:#000;
 	margin-bottom:10px;
+	background-image: linear-gradient(top, #62B1D0 0%, #0777A0 85%, #024D68 100%);
+	background-image: -o-linear-gradient(top, #62B1D0 0%, #0777A0 85%, #024D68 100%);
+	background-image: -moz-linear-gradient(top, #62B1D0 0%, #0777A0 85%, #024D68 100%);
+	background-image: -webkit-linear-gradient(top, #62B1D0 0%, #0777A0 85%, #024D68 100%);
+	background-image: -ms-linear-gradient(top, #62B1D0 0%, #0777A0 85%, #024D68 100%);
+	
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, #62B1D0),
+		color-stop(0.85, #0777A0),
+		color-stop(1, #024D68)
+	);
 }
 #site_info a {
-	color:#000;
+	color:#fff;
 }
 #site_info a:hover {
 	color:#000;
@@ -557,7 +625,7 @@ input.search.button {
 
 /* Component containers
 ----------------------------------*/
-.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1.1em; }
+
 .ui-widget .ui-widget { font-size: 1em; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 1em; }
 .ui-widget-content { border: 1px solid #aaaaaa;  color: #222222; }

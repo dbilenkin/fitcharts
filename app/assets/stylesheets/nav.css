@@ -84,6 +84,7 @@ ul.nav li.current:hover ul li a:active {color:#BF7A30; background:#fff;}
 ----------------------------------------------- */
 ul.nav {
   background:#BF7A30;
+  margin-bottom: 5px;
 }
 ul.main li {
   position:relative;

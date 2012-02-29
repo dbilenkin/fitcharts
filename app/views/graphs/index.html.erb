@@ -21,7 +21,7 @@
 							<li>
 								<a class="ui-widget-content graphType" id="line" href="#">Line</a>
 							</li>
-							<li>
+							<li class="ui-selected">
 								<a class="ui-widget-content graphType" id="spline" href="#">Spline</a>
 							</li>
 							<li>
@@ -44,73 +44,16 @@
 					<h2>
 						<a href="#" id="toggle-activity-items">Activity Type</a>
 					</h2>
-					<div class="block section-menu" id="activity-items">
-						<ul class="section_x menu">
-							<li>
-								<a class="menuitem workoutType" id="Run">Running</a>
-								<ul class="menu selectable">
-									<li>
-										<a>Easy</a>
-									</li>
-									<li>
-										<a>Tempo</a>
-									</li>
-									<li>
-										<a>Long</a>
-									</li>
-									<li>
-										<a>Interval</a>
-									</li>
-									<li>
-										<a>MAF Test</a>
-									</li>
-									<li>
-										<a>Race</a>
-									</li>
-								</ul>
+					<div class="block" id="list-items">
+						<ul class="menu selectable">
+							<li class="ui-selected">
+								<a class="ui-widget-content workoutType" id="Run" href="#">Running</a>
 							</li>
 							<li>
-								<a class="menuitem workoutType" id="Bike">Biking</a>
-								<ul class="submenu">
-									<li>
-										<a>Easy</a>
-									</li>
-									<li>
-										<a>Tempo</a>
-									</li>
-									<li>
-										<a>Long</a>
-									</li>
-									<li>
-										<a>Interval</a>
-									</li>
-									<li>
-										<a>Hill</a>
-									</li>
-									<li>
-										<a>Stationary</a>
-									</li>
-									<li>
-										<a>Race</a>
-									</li>
-								</ul>
+								<a class="ui-widget-content workoutType" id="Bike" href="#">Biking</a>
 							</li>
 							<li>
-								<a class="menuitem workoutType" id="Swim">Swimming</a>
-								<ul class="submenu">
-									<li>
-										<a>Freestyle</a>
-									</li>
-									<li>
-										<a>Breast Stroke</a>
-									</li>
-									<li>
-										<a>Mixed</a>
-									</li>
-									<li>
-										<a>Race</a>
-									</li>
-								</ul>
+								<a class="ui-widget-content workoutType" id="Swim" href="#">Swimming</a>
 							</li>
 						</ul>
 					</div>
@@ -127,7 +70,7 @@
 							<li>
 								<a class="menuitem">Workout</a>
 								<ul class="menu selectable">
-									<li>
+									<li class="ui-selected">
 										<a class="metric" id="distance">Distance</a>
 									</li>
 									<li>
@@ -136,13 +79,13 @@
 									<li>
 										<a class="metric" id="pace">Pace</a>
 									</li>
-									<li>
+									<li class="disabled">
 										<a class="metric" id="speed">Speed</a>
 									</li>
 									<li>
 										<a class="metric" id="vdot">VDOT</a>
 									</li>
-									<li>
+									<li class="disabled">
 										<a class="metric" id="effort">Effort</a>
 									</li>
 									<li>
@@ -153,33 +96,33 @@
 							<li>
 								<a class="menuitem">Health</a>
 								<ul class="submenu">
-									<li>
+									<li class="disabled">
 										<a>Weight</a>
 									</li>
-									<li>
+									<li class="disabled">
 										<a>Resting HR</a>
 									</li>
 									<li>
 										<a class="metric" id="avg_hr">Average HR</a>
 									</li>
-									<li>
+									<li class="disabled">
 										<a>Max HR</a>
 									</li>
 								</ul>
 							</li>
-							<li>
+							<li class="disabled">
 								<a class="menuitem">Conditions</a>
 								<ul class="submenu">
-									<li>
+									<li class="disabled">
 										<a>Temperature</a>
 									</li>
-									<li>
+									<li class="disabled">
 										<a>Elevation Change</a>
 									</li>
-									<li>
+									<li class="disabled">
 										<a>Elevation</a>
 									</li>
-									<li>
+									<li class="disabled">
 										<a>Weather</a>
 									</li>
 								</ul>
@@ -195,24 +138,24 @@
 						<a href="#" id="toggle-list-items">Group By</a>
 					</h2>
 					<div class="block" id="list-items">
-						<ul class="menu">
+						<ul class="menu selectable">
 							<li>
-								<a href="#">Date</a>
+								<a class="groupBy" id="day">Day</a>
 							</li>
 							<li>
-								<a href="#">Week</a>
+								<a class="groupBy" id="week">Week</a>
+							</li>
+							<li class="ui-selected">
+								<a class="groupBy" id="month">Month</a>
 							</li>
 							<li>
-								<a href="#">Month</a>
+								<a class="groupBy" id="year">Year</a>
 							</li>
-							<li>
-								<a href="#">Year</a>
+							<li class="disabled">
+								<a>Day of Week</a>
 							</li>
-							<li>
-								<a href="#">Day of Week</a>
-							</li>
-							<li>
-								<a href="#">Hour of Day</a>
+							<li class="disabled">
+								<a class="disabled">Hour of Day</a>
 							</li>
 						</ul>
 					</div>
