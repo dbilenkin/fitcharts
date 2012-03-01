@@ -17,7 +17,13 @@ class UsersController < ApplicationController
   private
 
   def verify_is_admin
-    (current_user.nil?) ? redirect_to(root_path) : (redirect_to(root_path) unless current_user.admin?)
+    if (current_user.nil?) 
+      logger.info "User is not logged in. redirecting..."
+      redirect_to(root_path) 
+    else
+      logger.info "Current user admin? #{current_user.admin?}"
+      redirect_to(root_path) unless current_user.admin?
+    end
   end
   
 end
