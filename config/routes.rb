@@ -1,7 +1,10 @@
 Myapp::Application.routes.draw do
   resources :workout_types
-
+ 
   devise_for :users
+  devise_for :users do get '/users/sign_out' => 'devise/sessions#destroy' end
+    
+  get "users" => "users#index"
 
   get "workouts/by_date_range/:months" => "workouts#by_date_range"
   get "workouts/group_by/:group_by/:startMonth/:endMonth/:type" => "workouts#group_by"

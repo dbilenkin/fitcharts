@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   
   has_many :workouts, :dependent  => :destroy
+  
+  def admin?
+    self.admin == true
+  end
 end
