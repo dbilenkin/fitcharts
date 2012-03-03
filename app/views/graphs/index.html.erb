@@ -127,6 +127,17 @@
 									</li>
 								</ul>
 							</li>
+							<li>
+								<a class="menuitem">Custom Fields</a>
+								<ul class="submenu">
+									<% @custom_field_names.each do |custom_field_name| %>
+									  <li>
+										<a class="metric" id="avg_custom_field"><%= custom_field_name %></a>
+									  </li>
+									<% end %>
+								</ul>
+								
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -162,3 +173,4 @@
 				</div>
 			</div>
 <div class="clear">
+<script type="text/javascript" src="/assets/custom_graph.js"></script>

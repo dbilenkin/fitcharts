@@ -2,7 +2,7 @@ class GraphsController < ApplicationController
   
   before_filter :authenticate_user!
   
-  def workouts_by_date_range(from, to)
-    @workouts = Workout.find(:all, :conditions => {:date => 2012-01-01..2012-02-15})
+  def index
+    @custom_field_names = current_user.custom_fields.collect {|x| x.name}.uniq
   end
 end

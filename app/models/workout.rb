@@ -2,19 +2,13 @@ class Workout < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :workout_type
+  has_many :custom_fields
   
-  attr_accessor :avg_vdot, :month, :type
+  attr_accessor :avg_vdot, :month, :type, :avg_custom_field, :pace, :speed
   
-  def pace
-    if (!self.distance.nil?)
-      self.duration / self.distance 
-    end
-  end
   
   def vdot
-    if (!self.distance.nil?)
-      self.pace * self.duration
-      
+    if (!self.distance.nil? && !self.duration.nil?)     
       duration = self.duration/60
       distance = self.distance * 1609.3
       speed = distance/duration
@@ -44,7 +38,7 @@ class Workout < ActiveRecord::Base
   end
   
   def pace_formatted
-    if (!self.distance.nil?)
+    if (!self.pace.nil?)
       self.time_formatted(self.pace)
     end
   end
@@ -55,9 +49,28 @@ class Workout < ActiveRecord::Base
     end
   end
   
-  def as_json(options={})
-    super(:only => [:date, :distance, :duration, :avg_hr, :weight, :comments], :methods =>[:pace, :vdot, :avg_vdot, :month, :type])
-    #super(:only => [:date, :distance], :methods =>[:pace_formatted, :duration_formatted, :vdot])
+  def custom_field
+    if (self.custom_fields.empty?)
+      logger.debug "custom field nil"
+      nil
+    else
+      logger.debug "custom field value: #{self.custom_fields[0].value}"
+      self.custom_fields[0].value.to_f
+    end
+  end
+  
+  def as_json(options={}) {
+    :date => self.date,
+    :distance => self.distance,
+    :duration => self.duration,
+    :avg_hr => self.avg_hr,
+    :pace => self.pace,
+    :speed => self.speed,
+    :vdot => self.avg_vdot,
+    :type => self.type,
+    :custom_fields => self.custom_fields
+  }
+
   end
   
   

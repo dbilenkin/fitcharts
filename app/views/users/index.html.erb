@@ -1,8 +1,9 @@
-<h1>Listing users</h1>
+<h1>Users</h1>
 
 <table width="100%">
   <tr>
     <th>email</th>
+    <th>charts</th>
     <th>admin</th>
   </tr>
 
@@ -11,6 +12,7 @@
 <% @users.each do |user| %>
   <tr>
     <td><%= user.email %></td>
+    <td><a href="<%= user.id %>/charts">charts</a></td>
     <td><%= user.admin? %></td>
   </tr>
 <% end %>

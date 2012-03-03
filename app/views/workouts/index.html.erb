@@ -12,6 +12,7 @@
     <th>Distance</th>
     <th>Pace</th>
     <th>VDOT</th>
+    <th><%= @custom_fields.empty? ? "" : @custom_fields[0].custom_field_type.name %></th>
     <th></th>
     <th></th>
     <th></th>
@@ -27,6 +28,7 @@
     <td><%= workout.distance.nil? ? 0 : workout.distance.round(2) %></td>
     <td><%= workout.pace_formatted %></td>
     <td><%= workout.vdot.round(2) %></td>
+    <td><%= workout.custom_fields[0].nil? ? '' : workout.custom_fields[0].value %></td>
     <td><%= link_to 'Show', workout %></td>
     <td><%= link_to 'Edit', edit_workout_path(workout) %></td>
     <td><%= link_to 'Destroy', workout, confirm: 'Are you sure?', method: :delete %></td>

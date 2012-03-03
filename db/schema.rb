@@ -11,7 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120229232434) do
+ActiveRecord::Schema.define(:version => 20120301033603) do
+
+  create_table "custom_field_types", :force => true do |t|
+    t.string   "name"
+    t.integer  "workout_type_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "custom_fields", :force => true do |t|
+    t.decimal  "value"
+    t.integer  "workout_id"
+    t.integer  "custom_field_type_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
 
   create_table "training_log_files", :force => true do |t|
     t.datetime "created_at", :null => false

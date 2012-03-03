@@ -4,7 +4,8 @@ class WorkoutsController < ApplicationController
   # GET /workouts
   # GET /workouts.json
   def index
-    @workouts = current_user.workouts
+    @workouts = current_user.workouts(:include => :custom_fields)
+    @custom_fields = current_user.custom_fields
 
     respond_to do |format|
       format.html # index.html.erb
@@ -34,10 +35,17 @@ class WorkoutsController < ApplicationController
   end
   
   def group_by
+    
+    if (params[:userId])
+      user = User.find(params[:userId])
+    else
+      user = current_user
+    end
+    
     start_month = Date.today.months_ago(params[:startMonth].to_i).beginning_of_month
     end_month = Date.today.months_ago(params[:endMonth].to_i).end_of_month
     date_range = start_month..end_month
-    workouts = current_user.workouts.includes(:workout_type).where(:date => date_range).order('date asc')
+    workouts = user.workouts.includes(:workout_type).where(:date => date_range).order('date asc')
     
     workouts.reject!{|x| x.workout_type.name != params[:type]}
     
@@ -57,37 +65,56 @@ class WorkoutsController < ApplicationController
     workout_groups.each do |group, records|
       workout = Workout.new
       #workout.month = records[0].date.strftime('%B, %Y')
-      workout.date = records[0].date
+      workout.date = group
       
       workout.type = records[0].workout_type.name
       
       puts "group #{group}"
       puts "record #{records[0].date.strftime('%B, %Y')}"
       
-      #workout.distance = records.inject {|sum, n| sum + n.distance } 
       workout.distance = records.reject{|x| x.distance.nil?}.collect(&:distance).sum
       workout.duration = records.reject{|x| x.duration.nil?}.collect(&:duration).sum
       workout.avg_vdot = records.reject{|x| x.vdot.nil?}.collect(&:vdot).sum.to_f/records.size
       
+      #custom fields
+      custom_field_total = 0.0
       total_hr = 0.0
+      distance_total = 0.0
+      duration_total = 0.0
+      num_custom_field_records = 0
       num_hr_records = 0
+      
+      custom_field_hash = Hash.new
       records.each do |record|
+        if (!record.custom_field.nil?)
+          custom_field_total+=record.custom_field
+          num_custom_field_records+=1
+        end  
         
         if (!record.avg_hr.nil?)
           total_hr += record.avg_hr
           num_hr_records+=1
         end
         
+        if (!record.distance.blank? && !record.duration.blank?)
+          distance_total+=record.distance
+          duration_total+=record.duration
+        end
       end
       
+      
+      workout.avg_custom_field = num_custom_field_records == 0 ? nil : custom_field_total/num_custom_field_records         
       workout.avg_hr = total_hr / num_hr_records
       
-      #workout.duration = records.inject {|sum, n| sum + n.duration } 
-      #workout.pace = records.inject {|sum, n| sum + n.pace }.to_f / records.size 
-      #workout.avg_hr = records.inject {|sum, n| sum + n.avg_hr }.to_f / records.size 
-      #workout.vdot = records.inject {|sum, n| sum + n.vdot }.to_f / records.size
+      if (distance_total == 0 || duration_total == 0)
+        workout.pace = nil
+        workout.speed = nil
+      else
+        workout.pace = duration_total / distance_total
+        workout.speed = 3600 * distance_total / duration_total
+      end
       
-
+      
       @grouped_workouts.push(workout) 
       
     end

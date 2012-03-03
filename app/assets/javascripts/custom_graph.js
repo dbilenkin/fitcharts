@@ -7,6 +7,7 @@ var graphType = "spline";
 var metric = "distance";
 var workoutType = "Run";
 var groupBy = "month";
+var path;
 
 function changeType(series, newType) {
         
@@ -32,9 +33,11 @@ function displayMetric(metric) {
 	for (var i=0; i< jsonData.length; i++) {
 		
 		var value;
+		
+
 		if (metric == "vdotoverhr") {
 			if (parseInt(jsonData[i]["avg_hr"]) > 30) {
-				value = parseFloat(jsonData[i]["avg_vdot"])/parseInt(jsonData[i]["avg_hr"]);
+				value = parseFloat(jsonData[i]["vdot"])/parseInt(jsonData[i]["avg_hr"]);
 				value = parseFloat((value * 100).toFixed(2));
 			} else {
 				value = null;
@@ -44,16 +47,17 @@ function displayMetric(metric) {
 		} else {
 			value = parseFloat(parseFloat(jsonData[i][metric]).toFixed(2));
 		}
+		
+		if (isNaN(value)) value = null;
+		
+			
+		var d = $.datepicker.parseDate('yy-mm-dd', jsonData[i].date).valueOf();
+		data.push(
+			//[$.datepicker.parseDate('yy-mm-dd', data[i].date), value]
+			[d, value]
+		);
+			
 
-		if (!isNaN(value)) {
-			
-			var d = $.datepicker.parseDate('yy-mm-dd', jsonData[i].date).valueOf();
-			data.push(
-				//[$.datepicker.parseDate('yy-mm-dd', data[i].date), value]
-				[d, value]
-			);
-			
-		}
 		
 	}
 	
@@ -72,7 +76,7 @@ function displayMetric(metric) {
 function getWorkouts() {
 	$.ajax({
         //url: 'workouts/by_date_range/' + pastMonths + '.json',
-        url: 'workouts/group_by/' + 
+        url: path + '/group_by/' +
         groupBy + '/' + startMonth + '/' + 
         endMonth + '/' + workoutType + '.json',
         
@@ -111,7 +115,8 @@ function getWorkouts() {
 }
 
 $(document).ready(function() {
-
+	
+	path = window.location.pathname
 	// define the options
 	options = {
 
@@ -172,9 +177,9 @@ $(document).ready(function() {
 		}],
 		
 		plotOptions: {
-			series: [{
+			series: {
 				connectNulls: true
-			}]
+			}
 		}
 	};
 

@@ -12,4 +12,16 @@ class User < ActiveRecord::Base
   def admin?
     self.admin == true
   end
+  
+  def custom_fields
+    @custom_fields = Array.new
+    self.workouts.each do |workout|
+      if (!workout.custom_fields.empty?)
+        workout.custom_fields.each do |custom_field|
+          @custom_fields.push(custom_field)
+        end        
+      end     
+    end
+    @custom_fields
+  end
 end
