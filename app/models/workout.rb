@@ -68,6 +68,7 @@ class Workout < ActiveRecord::Base
     :speed => self.speed,
     :vdot => self.avg_vdot,
     :type => self.type,
+    :weight => self.weight,
     :custom_fields => self.custom_fields
   }
 

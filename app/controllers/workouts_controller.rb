@@ -78,11 +78,13 @@ class WorkoutsController < ApplicationController
       
       #custom fields
       custom_field_total = 0.0
-      total_hr = 0.0
+      avg_hr_total = 0.0
       distance_total = 0.0
       duration_total = 0.0
+      weight_total = 0.0
       num_custom_field_records = 0
       num_hr_records = 0
+      num_weight_records = 0
       
       custom_field_hash = Hash.new
       records.each do |record|
@@ -92,8 +94,13 @@ class WorkoutsController < ApplicationController
         end  
         
         if (!record.avg_hr.nil?)
-          total_hr += record.avg_hr
+          avg_hr_total += record.avg_hr
           num_hr_records+=1
+        end
+        
+        if (!record.weight.nil?)
+          weight_total += record.weight
+          num_weight_records+=1
         end
         
         if (!record.distance.blank? && !record.duration.blank?)
@@ -104,7 +111,8 @@ class WorkoutsController < ApplicationController
       
       
       workout.avg_custom_field = num_custom_field_records == 0 ? nil : custom_field_total/num_custom_field_records         
-      workout.avg_hr = total_hr / num_hr_records
+      workout.avg_hr = avg_hr_total / num_hr_records
+      workout.weight = weight_total / num_weight_records
       
       if (distance_total == 0 || duration_total == 0)
         workout.pace = nil

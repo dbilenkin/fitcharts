@@ -28,20 +28,9 @@ class UploadTrainingLogController < ApplicationController
       datetime = Time.parse(event[:time])
       workout.date = datetime
       workout.time = datetime
-      distance_element = (event/:Distance).first
-      if (!distance_element.nil?)
-        if (distance_element[:unit] == "km")
-          distance = distance_element.inner_html.to_f/1.609
-        elsif (distance_element[:unit] == "yd")
-          distance = distance_element.inner_html.to_f/1760
-        elsif (distance_element[:unit] == "m")
-          distance = distance_element.inner_html.to_f/1609
-        else
-          distance = distance_element.inner_html
-        end
-        
-        workout.distance = distance
-      end
+      
+      getHR(event, workout)
+      getDistance(event, workout)
       
       duration_element = (event/:Duration).first
       if (!duration_element.nil?)
@@ -77,23 +66,48 @@ class UploadTrainingLogController < ApplicationController
         
       end
       
-      hr_element = (event/:HeartRate).first
-      if (!hr_element.nil?)
-        avg_hr_element = (hr_element/:AvgHR).first
-        if (!avg_hr_element.nil?)
-          workout.avg_hr = avg_hr_element.inner_html
-        end
-        max_hr_element = (hr_element/:MaxHR).first
-        if (!max_hr_element.nil?)
-          workout.max_hr = max_hr_element.inner_html
-        end
-
-      end
+      
 
       workout.save
 
     end
     
     redirect_to workouts_path
+  end
+  
+  private
+  
+  def getHR(event, workout)
+    
+    hr_element = (event/:HeartRate).first
+    if (!hr_element.nil?)
+      avg_hr_element = (hr_element/:AvgHR).first
+      if (!avg_hr_element.nil?)
+        workout.avg_hr = avg_hr_element.inner_html
+      end
+      max_hr_element = (hr_element/:MaxHR).first
+      if (!max_hr_element.nil?)
+        workout.max_hr = max_hr_element.inner_html
+      end
+
+    end
+  end
+  
+  def getDistance(event, workout)
+    
+    distance_element = (event/:Distance).first
+    if (!distance_element.nil?)
+      if (distance_element[:unit] == "km")
+        distance = distance_element.inner_html.to_f/1.609
+      elsif (distance_element[:unit] == "yd")
+        distance = distance_element.inner_html.to_f/1760
+      elsif (distance_element[:unit] == "m")
+        distance = distance_element.inner_html.to_f/1609
+      else
+        distance = distance_element.inner_html
+      end
+      
+      workout.distance = distance
+    end
   end
 end

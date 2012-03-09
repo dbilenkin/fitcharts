@@ -8,6 +8,10 @@ gem 'rails', '3.2.1'
 gem 'pg'
 gem 'hpricot'
 gem 'devise'
+gem 'thin'
+
+# ugh can't use mongrel on windows with ruby 1.9???
+# gem 'mongrel'
 
 # apparently 0.9 breaks stuff? whatever.
 # gem "rake", "0.8.7"

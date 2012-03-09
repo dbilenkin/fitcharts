@@ -1,0 +1,64 @@
+/* UNLESS YOU KNOW WHAT YOU'RE DOING, DO NOT CHANGE THE FOLLOWING RULES */
+		
+.easy-accordion{display:block;position:relative;overflow:hidden;padding:0;margin:0}
+.easy-accordion dt,.easy-accordion dd{margin:0;padding:0}
+.easy-accordion dt,.easy-accordion dd{position:absolute}
+.easy-accordion dt{margin-bottom:0;margin-left:0;z-index:5;/* Safari */ -webkit-transform: rotate(-90deg); /* Firefox */ -moz-transform: rotate(-90deg);-moz-transform-origin: 20px 0px;  /* Internet Explorer */ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);cursor:pointer;}
+.easy-accordion dd{z-index:1;opacity:0;overflow:hidden}
+.easy-accordion dd.active{opacity:1;}
+.easy-accordion dd.no-more-active{z-index:2;opacity:1}
+.easy-accordion dd.active{z-index:3}
+.easy-accordion dd.plus{z-index:4}
+.easy-accordion .slide-number{position:absolute;bottom:0;left:10px;font-weight:normal;font-size:1.1em;/* Safari */ -webkit-transform: rotate(90deg); /* Firefox */ -moz-transform: rotate(90deg);  /* Internet Explorer */ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);}
+ 
+ 
+/* FEEL FREE TO CUSTOMIZE THE FOLLOWING RULES */
+
+dd p{line-height:120%}
+	
+#optionsAccordion{height: 290px;}
+#optionsAccordion dl{ height: 290px;}	
+#optionsAccordion dt{
+	height:56px;
+	line-height:44px;
+	text-align:right;
+	padding:10px 15px 0 0;
+	text-transform:uppercase;letter-spacing:1px;
+	color:#fff
+}
+#optionsAccordion dt.active{cursor:pointer;}
+#optionsAccordion dt.hover{color:#fff;}
+#optionsAccordion dt.active.hover{color:#fff}
+#optionsAccordion .slide-number{color:#fff;left:10px;font-weight:bold}
+#optionsAccordion .active .slide-number{color:#fff}
+
+#accordion-dt1 {
+	background-color: #024C68;
+	border-radius: 10px 10px 0px 0px;
+	}
+#accordion-dd1 {
+	background-color: #ffffff;
+	border: solid 2px #024C68;
+	
+}
+
+#accordion-dt2.active {
+	border-radius: 0px 0px 0px 0px;
+}
+#accordion-dt2 {
+	background-color: #A61D00;
+	border-radius: 0px 0px 10px 10px;
+}
+
+#accordion-dd2 {
+	background-color: #ffffff;
+	border: solid 2px #A61D00;
+	border-radius: 0px 10px 10px 0px;
+}
+
+#accordion-dt3 {background-color: #A67600}
+#accordion-dd3 {background-color: #FFD773}
+
+#accordion-dt4 {background-color: #00782D}
+#accordion-dd4 {background-color: #63DC90}
+

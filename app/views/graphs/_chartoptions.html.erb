@@ -1,0 +1,162 @@
+<div class="grid_4">
+				
+	<div class="box menu">
+		<h2>
+			<a href="#" id="toggle-list-items">Graph Type</a>
+		</h2>
+		<div class="block" id="list-items">
+			<ul class="menu selectable">
+				<li>
+					<a class="ui-widget-content graphType" id="line" href="#">Line</a>
+				</li>
+				<li class="ui-selected">
+					<a class="ui-widget-content graphType" id="spline" href="#">Spline</a>
+				</li>
+				<li>
+					<a class="ui-widget-content graphType" id="column" href="#">Column</a>
+				</li>
+				<li>
+					<a class="ui-widget-content graphType" id="area" href="#">Area</a>
+				</li>
+				<li>
+					<a class="ui-widget-content graphType" id="areaspline" href="#">Area Spline</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+<div class="grid_4">
+	
+	<div class="box menu">
+		<h2>
+			<a href="#" id="toggle-activity-items">Activity Type</a>
+		</h2>
+		<div class="block" id="list-items">
+			<ul class="menu selectable">
+				<li class="ui-selected">
+					<a class="ui-widget-content workoutType" id="Run" href="#">Running</a>
+				</li>
+				<li>
+					<a class="ui-widget-content workoutType" id="Bike" href="#">Biking</a>
+				</li>
+				<li>
+					<a class="ui-widget-content workoutType" id="Swim" href="#">Swimming</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+<div class="grid_4">
+	<div class="box menu">
+		<h2>
+			<a href="#" id="toggle-data-items">Select Data</a>
+		</h2>
+		<div class="block section-menu" id="data-items">
+			<ul class="section_x menu">
+				<li>
+					<a class="menuitem">Workout</a>
+					<ul class="menu selectable">
+						<li class="ui-selected">
+							<a class="metric" id="distance">Distance</a>
+						</li>
+						<li>
+							<a class="metric" id="duration">Duration</a>
+						</li>
+						<li>
+							<a class="metric" id="pace">Pace</a>
+						</li>
+						<li>
+							<a class="metric" id="speed">Speed</a>
+						</li>
+						<li>
+							<a class="metric" id="vdot">VDOT</a>
+						</li>
+						<li class="disabled">
+							<a class="metric" id="effort">Effort</a>
+						</li>
+						<li>
+							<a class="metric" id="vdotoverhr">VDOT/HR</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a class="menuitem">Health</a>
+					<ul class="submenu">
+						<li>
+							<a class="metric" id="weight">Weight</a>
+						</li>
+						<li class="disabled">
+							<a>Resting HR</a>
+						</li>
+						<li>
+							<a class="metric" id="avg_hr">Average HR</a>
+						</li>
+						<li class="disabled">
+							<a>Max HR</a>
+						</li>
+					</ul>
+				</li>
+				<li class="disabled">
+					<a class="menuitem">Conditions</a>
+					<ul class="submenu">
+						<li class="disabled">
+							<a>Temperature</a>
+						</li>
+						<li class="disabled">
+							<a>Elevation Change</a>
+						</li>
+						<li class="disabled">
+							<a>Elevation</a>
+						</li>
+						<li class="disabled">
+							<a>Weather</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a class="menuitem">Custom Fields</a>
+					<ul class="submenu">
+						<% @custom_field_names.each do |custom_field_name| %>
+						  <li>
+							<a class="metric" id="avg_custom_field"><%= custom_field_name %></a>
+						  </li>
+						<% end %>
+					</ul>
+					
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+<div class="grid_4">
+	<div class="box menu">
+		<h2>
+			<a href="#" id="toggle-list-items">Group By</a>
+		</h2>
+		<div class="block" id="list-items">
+			<ul class="menu selectable">
+				<li>
+					<a class="ui-widget-content groupBy" id="day">Day</a>
+				</li>
+				<li>
+					<a class="ui-widget-content groupBy" id="week">Week</a>
+				</li>
+				<li class="ui-selected">
+					<a class="ui-widget-content groupBy" id="month">Month</a>
+				</li>
+				<li>
+					<a class="ui-widget-content groupBy" id="year">Year</a>
+				</li>
+				<li class="disabled">
+					<a class="ui-widget-content disabled">Day of Week</a>
+				</li>
+				<li class="disabled">
+					<a class="ui-widget-content disabled">Hour of Day</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
