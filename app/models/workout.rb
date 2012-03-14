@@ -3,8 +3,9 @@ class Workout < ActiveRecord::Base
   belongs_to :user
   belongs_to :workout_type
   has_many :custom_fields
+  has_many :custom_field_types, :through => :custom_fields
   
-  attr_accessor :avg_vdot, :month, :type, :avg_custom_field, :pace, :speed
+  attr_accessor :vdot, :month, :type, :custom_field, :pace, :speed, :metric
   
   
   def vdot
@@ -13,14 +14,28 @@ class Workout < ActiveRecord::Base
       distance = self.distance * 1609.3
       speed = distance/duration
       
+      
       percent_max = 0.8 + 0.1894393 * 
       Math.exp(-0.012778 * duration) + 0.2989558 * 
-      Math.exp(-0.1932605 * duration * 1440)
+      Math.exp(-0.1932605 * duration)
       
       vo2 = -4.6 + 0.182258 * speed + 
       0.000104 * speed**2
       
       vdot = vo2 / percent_max
+      
+      if (vdot > 60 && vdot < 40.5)
+        puts "self.duration #{self.duration}"
+        puts "self.distance #{self.distance}"
+        puts "duration #{duration}"
+        puts "distance #{distance}"
+        puts "percent_max #{percent_max}"
+        puts "vo2 #{vo2}" 
+        puts "vdot #{vo2 / percent_max}"
+      end
+
+      vdot
+      
     else
       0
     end
@@ -33,8 +48,25 @@ class Workout < ActiveRecord::Base
     else
       p.strftime("%_M:%S")
     end
+  end
+  
+  def pace
+    if (!self.distance.nil? && !self.duration.nil?)
+      self.duration / self.distance
+    end     
+  end
+  
+  def speed
+    if (!self.distance.nil? && !self.duration.nil?)
+      3600 * self.distance / self.duration
+    end  
     
-    
+  end
+  
+  def vdotoverhr
+    if (!self.vdot.blank? && !self.avg_hr.nil?)
+      100 * self.vdot / self.avg_hr
+    end
   end
   
   def pace_formatted
@@ -61,15 +93,8 @@ class Workout < ActiveRecord::Base
   
   def as_json(options={}) {
     :date => self.date,
-    :distance => self.distance,
-    :duration => self.duration,
-    :avg_hr => self.avg_hr,
-    :pace => self.pace,
-    :speed => self.speed,
-    :vdot => self.avg_vdot,
     :type => self.type,
-    :weight => self.weight,
-    :custom_fields => self.custom_fields
+    :metric => self.metric
   }
 
   end

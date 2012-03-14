@@ -7,8 +7,8 @@ Myapp::Application.routes.draw do
   get "users" => "users#index"
 
   get "workouts/by_date_range/:months" => "workouts#by_date_range"
-  get "charts/group_by/:group_by/:startMonth/:endMonth/:type" => "workouts#group_by"
-  get ":userId/charts/group_by/:group_by/:startMonth/:endMonth/:type" => "workouts#group_by"
+  get "charts/group_by/:group_by/:startMonth/:endMonth/:type/:metric/:aggregate" => "workouts#group_by"
+  get ":userId/charts/group_by/:group_by/:startMonth/:endMonth/:type/:metric/:aggregate" => "workouts#group_by"
   resources :workouts
   resources :graphs
   get "charts" => "graphs#index"

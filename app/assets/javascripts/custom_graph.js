@@ -32,6 +32,52 @@ Chart = {
 	workoutType : "Run",
 	groupBy : "month",	
 	color : "#0776A0",
+	aggregate : "sum",
+	
+	aggregateLookup : {
+		distance : "sum",
+		duration : "sum",
+		pace : "avg",
+		speed : "avg",
+		vdot : "max",
+		vdotoverhr : "avg",
+		weight : "avg",
+		avg_hr : "avg",		
+	},
+	
+	graphTypeLookup : {
+		distance : "column",
+		duration : "column",
+		pace : "spline",
+		speed : "spline",
+		vdot : "spline",
+		vdotoverhr : "spline",
+		weight : "spline",
+		avg_hr : "spline",		
+	},
+	
+	nameLookup : {
+		//metric
+		distance : "Distance",
+		duration : "Duration",
+		pace : "Pace",
+		speed : "Speed",
+		vdot : "VDOT",
+		vdotoverhr : "VDOT/HR",
+		weight : "Weight",
+		avg_hr : "Average HR",
+		//aggregate
+		sum : "Total ",
+		avg : "Average ",
+		max : "Max ",
+		min : "Min ",
+		//group by
+		day : "Daily ",
+		week :  "Weekly ",
+		month : "Monthly ",
+		year : "Yearly "
+		
+	},
 	
 	
 	SerieOptions : function() {
@@ -39,29 +85,69 @@ Chart = {
 		this.metric = Chart.metric;
 		this.workoutType = Chart.workoutType;
 		this.groupBy = Chart.groupBy;
+		this.aggregate = Chart.aggregate;
 		this.color = Chart.color;
 		this.data = null;
 		
 	},
 	
-	setType : function(newType) {		
+	setGraphType : function(newType, redraw) {		
 		this.seriesOptions[this.seriesNumber].graphType = newType;				
-		this.redrawChart();
+		if (redraw) this.redrawChart();
 	},
 	
 	setMetric : function(metric) {
-		var o = this.seriesOptions[this.seriesNumber].metric = metric;
-		this.setData();
-		this.redrawChart();
+		this.seriesOptions[this.seriesNumber].metric = metric;
+		if (this.nameLookup[metric] == null) {
+			metricName = metric;
+			metricName = metricName.charAt(7).toUpperCase() + metricName.slice(8);
+		} else {
+			metricName =  this.nameLookup[metric];
+		}
+		this.chart.yAxis[this.seriesNumber].setTitle({
+	        text: metricName
+	    });
+	    
+	    var graphType = this.graphTypeLookup[metric] == null ? "spline" : this.graphTypeLookup[metric];
+	    this.setGraphType(graphType);
+	    
+	    $("#accordion-dd1 .graphTypeMenu li").each(function() {
+		    $(this).removeClass("ui-selected");
+		});
+		$("#" + graphType).parent().addClass("ui-selected");
+		
+		
+		var aggregate = this.aggregateLookup[metric] == null ? "avg" : this.aggregateLookup[metric];
+	    this.setAggregate(aggregate);
+	    
+	     $("#accordion-dd1 .aggregateMenu li").each(function() {
+		    $(this).removeClass("ui-selected");
+		});
+		$("#" + aggregate).parent().addClass("ui-selected");
+	    
+	},
+	
+	setChartTitle : function() {
+		this.chart.setTitle({ text: 'New title '+ i++ });
 	},
 	
 	redrawChart : function() {
 		for(var i=0;i<this.chart.series.length;i++) {
 			var o = this.seriesOptions[i];
 			var serie = this.chart.series[0];
+			var metricName;
+			if (this.nameLookup[o.metric] == null) {
+				metricName = o.metric;
+				metricName = metricName.charAt(7).toUpperCase() + metricName.slice(8);
+			} else {
+				metricName =  this.nameLookup[o.metric];
+			}
+			
+			var title = this.nameLookup[o.aggregate] + this.nameLookup[o.groupBy] + 
+				metricName;
 			
 			this.chart.addSeries({
-				name: o.metric,
+				name: title,
 				data: o.data,
 				pointPadding: 0,
 				type: o.graphType,
@@ -83,17 +169,10 @@ Chart = {
 			
 			var value;
 
-			if (o.metric == "vdotoverhr") {
-				if (parseInt(jsonData[i]["avg_hr"]) > 30) {
-					value = parseFloat(jsonData[i]["vdot"])/parseInt(jsonData[i]["avg_hr"]);
-					value = parseFloat((value * 100).toFixed(2));
-				} else {
-					value = null;
-				}
-			} else if (o.metric == "duration" || o.metric == "pace") {
-				value = parseFloat(parseFloat(jsonData[i][o.metric]).toFixed(0));
+			if (o.metric == "duration" || o.metric == "pace") {
+				value = parseFloat(parseFloat(jsonData[i].metric).toFixed(0));
 			} else {
-				value = parseFloat(parseFloat(jsonData[i][o.metric]).toFixed(2));
+				value = parseFloat(parseFloat(jsonData[i].metric).toFixed(2));
 			}
 			
 			if (isNaN(value)) value = null;
@@ -127,7 +206,8 @@ Chart = {
 	        //url: 'workouts/by_date_range/' + pastMonths + '.json',
 	        url: this.path + '/group_by/' +
 	        o.groupBy + '/' + this.startMonth + '/' + 
-	        this.endMonth + '/' + o.workoutType + '.json',
+	        this.endMonth + '/' + o.workoutType + '/' + 
+	        o.metric + '/' + o.aggregate + '.json',
 	        
 	        dataType: 'json',
 	        success: function(jsonData) {
@@ -149,6 +229,11 @@ Chart = {
 	setWorkoutType : function(workoutType) {
 		var o = this.seriesOptions[this.seriesNumber];
 		o.workoutType = workoutType;
+	},
+	
+	setAggregate : function(aggregate) {
+		var o = this.seriesOptions[this.seriesNumber];
+		o.aggregate = aggregate;
 	},
 	
 	toolTipFormatter : function(tooltip) {
@@ -232,7 +317,8 @@ Chart = {
 
 		yAxis: [{ // left y axis
 			title: {
-				text: "First Series"
+				text: "Distance",
+				style : {color : '#0776A0'}
 			},
 			labels: {	
             	formatter: function() {
@@ -243,7 +329,8 @@ Chart = {
 		},
 		{
 			title: {
-				text: "Second Series"
+				text: " ",
+				style : {color : '#A61D00'}
 			},
 			labels: {
             	formatter: function() {
@@ -318,12 +405,13 @@ $(document).ready(function() {
 	
 	$(".graphType").click(
 		function() {
-			Chart.setType(this.id);			
+			Chart.setGraphType(this.id);			
 		});
 		
 	$(".metric").click(
 		function() {		
 			Chart.setMetric(this.id);
+			Chart.getWorkouts();
 		});
 		
 	$(".workoutType").click(
@@ -335,6 +423,11 @@ $(document).ready(function() {
 	$(".groupBy").click(
 		function() {		
 			Chart.setGroupBy(this.id);
+			Chart.getWorkouts();
+		});
+	$(".aggregate").click(
+		function() {		
+			Chart.setAggregate(this.id);
 			Chart.getWorkouts();
 		});
 		

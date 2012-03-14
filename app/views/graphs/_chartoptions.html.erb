@@ -1,32 +1,6 @@
 <div class="grid_4">
 				
-	<div class="box menu">
-		<h2>
-			<a href="#" id="toggle-list-items">Graph Type</a>
-		</h2>
-		<div class="block" id="list-items">
-			<ul class="menu selectable">
-				<li>
-					<a class="ui-widget-content graphType" id="line" href="#">Line</a>
-				</li>
-				<li class="ui-selected">
-					<a class="ui-widget-content graphType" id="spline" href="#">Spline</a>
-				</li>
-				<li>
-					<a class="ui-widget-content graphType" id="column" href="#">Column</a>
-				</li>
-				<li>
-					<a class="ui-widget-content graphType" id="area" href="#">Area</a>
-				</li>
-				<li>
-					<a class="ui-widget-content graphType" id="areaspline" href="#">Area Spline</a>
-				</li>
-			</ul>
-		</div>
-	</div>
 	
-</div>
-<div class="grid_4">
 	
 	<div class="box menu">
 		<h2>
@@ -35,19 +9,20 @@
 		<div class="block" id="list-items">
 			<ul class="menu selectable">
 				<li class="ui-selected">
-					<a class="ui-widget-content workoutType" id="Run" href="#">Running</a>
+					<a class="ui-widget-content workoutType" id="Run">Running</a>
 				</li>
 				<li>
-					<a class="ui-widget-content workoutType" id="Bike" href="#">Biking</a>
+					<a class="ui-widget-content workoutType" id="Bike">Biking</a>
 				</li>
 				<li>
-					<a class="ui-widget-content workoutType" id="Swim" href="#">Swimming</a>
+					<a class="ui-widget-content workoutType" id="Swim">Swimming</a>
 				</li>
 			</ul>
 		</div>
 	</div>
 	
 </div>
+
 <div class="grid_4">
 	<div class="box menu">
 		<h2>
@@ -83,7 +58,7 @@
 				</li>
 				<li>
 					<a class="menuitem">Health</a>
-					<ul class="submenu">
+					<ul class="menu selectable">
 						<li>
 							<a class="metric" id="weight">Weight</a>
 						</li>
@@ -100,7 +75,7 @@
 				</li>
 				<li class="disabled">
 					<a class="menuitem">Conditions</a>
-					<ul class="submenu">
+					<ul class="menu selectable">
 						<li class="disabled">
 							<a>Temperature</a>
 						</li>
@@ -117,10 +92,10 @@
 				</li>
 				<li>
 					<a class="menuitem">Custom Fields</a>
-					<ul class="submenu">
+					<ul class="menu selectable">
 						<% @custom_field_names.each do |custom_field_name| %>
 						  <li>
-							<a class="metric" id="avg_custom_field"><%= custom_field_name %></a>
+							<a class="metric" id="custom_<%= custom_field_name %>"><%= custom_field_name.capitalize %></a>
 						  </li>
 						<% end %>
 					</ul>
@@ -155,6 +130,47 @@
 				</li>
 				<li class="disabled">
 					<a class="ui-widget-content disabled">Hour of Day</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="grid_4">
+	<div class="box menu">
+		<h2>
+			<a href="#" id="toggle-list-items">Graph Type</a>
+		</h2>
+		<div class="block" id="list-items">
+			<ul class="graphTypeMenu menu selectable">
+				<li>
+					<a class="ui-widget-content graphType" id="spline">Line</a>
+				</li>
+				<li class="ui-selected">
+					<a class="ui-widget-content graphType" id="column">Column</a>
+				</li>
+				<li>
+					<a class="ui-widget-content graphType" id="areaspline">Area</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="box menu">
+		<h2>
+			<a href="#" id="toggle-list-items">Aggregate</a>
+		</h2>
+		<div class="block" id="list-items">
+			<ul class="aggregateMenu menu selectable">
+				<li class="ui-selected">
+					<a class="ui-widget-content aggregate" id="sum">Total</a>
+				</li>
+				<li>
+					<a class="ui-widget-content aggregate" id="avg">Average</a>
+				</li>
+				<li>
+					<a class="ui-widget-content aggregate" id="max">Max</a>
+				</li>
+				<li>
+					<a class="ui-widget-content aggregate" id="min">Min</a>
 				</li>
 			</ul>
 		</div>

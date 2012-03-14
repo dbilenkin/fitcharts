@@ -38,6 +38,7 @@ a {
 	color: #000;
 	font-weight:bold;
 	text-decoration: none;
+	cursor: pointer;
 }
 a:hover {
 	color:#A61D00;

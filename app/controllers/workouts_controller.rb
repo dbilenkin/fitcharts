@@ -35,6 +35,83 @@ class WorkoutsController < ApplicationController
   end
   
   def group_by
+    if (params[:userId])
+      user = User.find(params[:userId])
+    else
+      user = current_user
+    end
+
+    start_month = Date.today.months_ago(params[:startMonth].to_i).beginning_of_month
+    end_month = Date.today.months_ago(params[:endMonth].to_i).end_of_month
+    date_range = start_month..end_month
+    
+    if (params[:metric]).starts_with?("custom_")
+      custom_field = params[:metric]
+      custom_field.slice!(0..6)
+      workouts = user.workouts.
+        includes([:workout_type, :custom_fields, :custom_field_types]).
+        where('date BETWEEN ? AND ? AND custom_field_types.name = ?', 
+        start_month, end_month, custom_field).order('date asc')
+      
+      metric = "custom_field"
+      workouts.each{|x| x.custom_field = x.custom_fields[0].value}
+    else
+      workouts = user.workouts.select([params[:metric], :date, 'workout_types.name']).includes(:workout_type).
+        where(:date => date_range).order('date asc')
+      metric = params[:metric]
+    end
+
+    workouts.reject!{|x| x.workout_type.name != params[:type]}
+    
+    puts "workout: #{workouts[0]}"
+    puts "workout custom field: #{workouts[0].custom_field}"
+    
+    workout_groups = workouts.group_by { |t| t.date.send("beginning_of_" + params[:group_by]) }
+    
+    
+    @grouped_workouts = Array.new
+    
+    workout_groups.each do |group, records|
+
+      workout = Workout.new
+      #workout.month = records[0].date.strftime('%B, %Y')
+      workout.date = group      
+      workout.type = records[0].workout_type.name
+      
+      metric_total = 0.0
+      num_metric_records = 0
+      records.each do |record|
+        if (!record.send(metric).blank?)
+          metric_total+=record.send(metric)
+          #puts "metric_total #{metric_total}"
+          num_metric_records+=1
+        end  
+      end
+      
+      #puts "group #{group}"
+      #puts "num_metric_records #{num_metric_records}"
+      if (params[:aggregate] == "sum")
+        workout.metric = metric_total
+      elsif (params[:aggregate] == "avg")
+        workout.metric = num_metric_records == 0 ? nil : metric_total/num_metric_records
+      elsif (params[:aggregate] == "max")
+        workout.metric = records.reject{|x| x.send(metric).nil?}.collect{|r| r.send(metric)}.max
+      elsif (params[:aggregate] == "min")
+        workout.metric = records.reject{|x| x.send(metric).nil?}.collect{|r| r.send(metric)}.min
+      end
+
+      @grouped_workouts.push(workout) 
+      
+    end
+    
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @grouped_workouts }
+    end
+    
+  end
+  
+  def old_group_by
     
     if (params[:userId])
       user = User.find(params[:userId])
