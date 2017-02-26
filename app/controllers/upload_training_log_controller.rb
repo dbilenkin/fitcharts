@@ -14,7 +14,9 @@ class UploadTrainingLogController < ApplicationController
   def upload_file
     
     #delete everything first
-    current_user.workouts.delete_all
+    unless current_user.workouts.nil? || current_user.workouts.empty?
+      current_user.workouts.delete_all
+    end
     
     xml_file = params[:upload_file][:uploaded_file].read
     doc = Hpricot.XML(xml_file)
