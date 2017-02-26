@@ -82,7 +82,7 @@ class Workout < ActiveRecord::Base
   end
   
   def custom_field
-    if (self.custom_fields.empty?)
+    if (self.custom_fields.blank?)
       logger.debug "custom field nil"
       nil
     else
