@@ -388,14 +388,14 @@ $(document).ready(function() {
 	
 	
 	$("#pastMonthsSlider").slider({
-		values: [24,36],
+		values: [108,120],
 		min: 0,
-		max: 36,
+		max: 120,
 		range: true,
 
 		stop: function(event, ui) {
-			Chart.startMonth = 36 - ui.values[0];
-			Chart.endMonth = 36 - ui.values[1]
+			Chart.startMonth = 120 - ui.values[0];
+			Chart.endMonth = 120 - ui.values[1]
 			$( "#pastMonthsText" ).html(Chart.startMonth + 
 			" months ago to " + Chart.endMonth +" months ago");
 			Chart.getWorkouts();
