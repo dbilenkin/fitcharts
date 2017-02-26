@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   def custom_fields
     @custom_fields = Array.new
     self.workouts.each do |workout|
-      if (!workout.custom_fields.empty?)
+      if (!workout.custom_fields.blank?)
         workout.custom_fields.each do |custom_field|
           @custom_fields.push(custom_field)
         end        
