@@ -15,7 +15,7 @@ class UploadTrainingLogController < ApplicationController
     
     #delete everything first
     if current_user.workouts.present?
-      current_user.workouts.destroy_all
+      current_user.workouts.delete_all
     end
     
     xml_file = params[:upload_file][:uploaded_file].read
