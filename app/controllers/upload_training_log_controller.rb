@@ -49,21 +49,6 @@ class UploadTrainingLogController < ApplicationController
         notes = notes_element.inner_html
         workout.comments = notes
         
-        custom_field_brackets = notes.scan(/\{.*?\}/)
-        custom_field_brackets.each do |custom_field_bracket|
-          custom_field_pair = custom_field_bracket.nil? ? nil : custom_field_bracket.delete("{}").split(',')        
-        
-          if (!custom_field_pair.nil?)
-            custom_field = workout.custom_fields.create
-            custom_field.custom_field_type_id = 
-              CustomFieldType.find_or_create_by_name(custom_field_pair[0].strip).id
-            custom_field.custom_field_type.workout_type_id = workout.workout_type_id
-            custom_field.value = custom_field_pair[1].strip
-            custom_field.save
-          end
-          
-        end
-        
       end
       
       
