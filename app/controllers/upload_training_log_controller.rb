@@ -14,7 +14,7 @@ class UploadTrainingLogController < ApplicationController
   def upload_file
     
     #delete everything first
-    unless current_user.workouts.nil? || current_user.workouts.empty?
+    if !current_user.workouts.blank?
       current_user.workouts.delete_all
     end
     
